@@ -31,6 +31,8 @@
   --exam-bg: #f5f3ff;
   --basics-accent: #0d9488;
   --basics-bg: #f0fdfa;
+  --final-accent: #b45309;
+  --final-bg: #fffbeb;
   --rest-accent: #059669;
   --rest-bg: #ecfdf5;
   --shadow-sm: 0 2px 8px rgba(20, 20, 19, 0.05);
@@ -54,6 +56,7 @@ body.dark-mode {
   --live-bg: rgba(220, 38, 38, 0.12);
   --exam-bg: rgba(124, 58, 237, 0.14);
   --basics-bg: rgba(13, 148, 136, 0.14);
+  --final-bg: rgba(245, 158, 11, 0.14);
   --rest-bg: rgba(5, 150, 105, 0.12);
   --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
@@ -65,7 +68,7 @@ body.dark-mode {
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: 24px;
 }
 
 body {
@@ -76,17 +79,18 @@ body {
   line-height: 1.5;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  position: relative;
 }
 
 body::before {
   content: "";
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 5px;
   background: linear-gradient(90deg, var(--est-yellow), #f59e0b, var(--est-yellow));
-  z-index: 100;
+  z-index: 10;
 }
 
 a {
@@ -124,16 +128,6 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
   50% {
     box-shadow: 0 0 0 8px rgba(245, 224, 3, 0), 0 16px 36px rgba(20, 20, 19, 0.18);
   }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
 }
 
 /* ===== HERO HEADER (EST BRAND IDENTITY) ===== */
@@ -219,7 +213,7 @@ header.hero::after {
 
 .hero h1 {
   margin: 0 0 6px;
-  font-size: clamp(26px, 4.5vw, 42px);
+  font-size: clamp(24px, 4.5vw, 42px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.02em;
@@ -232,7 +226,7 @@ header.hero::after {
 .hero-sub {
   margin: 0 0 14px;
   color: #d1d5db;
-  font-size: clamp(14px, 2vw, 16px);
+  font-size: clamp(13.5px, 2vw, 16px);
   max-width: 650px;
 }
 
@@ -588,7 +582,7 @@ header.hero::after {
   border-radius: 10px;
   padding: 6px 10px;
   text-align: center;
-  min-width: 64px;
+  min-width: 68px;
   flex-shrink: 0;
 }
 
@@ -602,7 +596,7 @@ header.hero::after {
 
 .slot-date b {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   font-family: "JetBrains Mono", monospace;
 }
 
@@ -692,7 +686,7 @@ body.dark-mode .subj-chip {
 
 .sys-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
   margin-bottom: 22px;
 }
@@ -701,7 +695,7 @@ body.dark-mode .subj-chip {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  padding: 18px;
+  padding: 16px;
   box-shadow: var(--shadow-sm);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative;
@@ -718,7 +712,7 @@ body.dark-mode .subj-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 800;
   padding: 4px 10px;
   border-radius: 999px;
@@ -740,15 +734,24 @@ body.dark-mode .subj-chip {
   color: var(--basics-accent);
 }
 
+.sys-card.final-sys {
+  border-top: 3px solid var(--est-gold);
+}
+
+.sys-card.final-sys .sys-pill {
+  background: var(--final-bg);
+  color: var(--final-accent);
+}
+
 .sys-card h3 {
   margin: 0 0 6px;
-  font-size: 16px;
+  font-size: 15.5px;
   font-weight: 800;
 }
 
 .sys-card p {
   margin: 0 0 10px;
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--mute);
 }
 
@@ -756,7 +759,7 @@ body.dark-mode .subj-chip {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 12.5px;
+  font-size: 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -775,26 +778,19 @@ body.dark-mode .subj-chip {
   font-weight: 900;
 }
 
-/* ===== STICKY CONTROL & FILTER BAR ===== */
+/* ===== CONTROL & FILTER BAR (STATIC FLOW — DISAPPEARS ON SCROLL DOWN) ===== */
 .control-bar {
-  position: sticky;
-  top: 8px;
-  z-index: 40;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 5;
+  background: var(--card);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 12px 16px;
+  padding: 14px 16px;
   margin-bottom: 18px;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-body.dark-mode .control-bar {
-  background: rgba(25, 25, 23, 0.92);
 }
 
 .ctrl-row-top {
@@ -816,8 +812,8 @@ body.dark-mode .control-bar {
   color: var(--ink-secondary);
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 7px 13px;
-  font-size: 12.5px;
+  padding: 7px 12px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -857,7 +853,7 @@ body.dark-mode .wk-btn.active {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 7px 12px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1007,6 +1003,8 @@ body.dark-mode .type-chip.active {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   background: linear-gradient(90deg, #181816 0%, #272723 100%);
   color: #ffffff;
   padding: 12px 20px;
@@ -1020,10 +1018,11 @@ body.dark-mode .type-chip.active {
   margin: 0;
   font-size: 16px;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
 }
 
 .week-banner h3 span.wk-ylw {
@@ -1066,6 +1065,11 @@ body.dark-mode .type-chip.active {
 .day-card.off-day {
   background: var(--card-alt);
   border-style: dashed;
+}
+
+.day-card.exam-day-highlight {
+  border: 2px solid var(--est-gold);
+  background: linear-gradient(135deg, var(--card) 0%, var(--est-yellow-soft) 100%);
 }
 
 /* Date Left Badge Column */
@@ -1160,6 +1164,7 @@ body.dark-mode .type-chip.active {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
 }
 
 .badge-tag.day-idx {
@@ -1180,6 +1185,12 @@ body.dark-mode .type-chip.active {
 .badge-tag.cat-basics {
   background: var(--basics-bg);
   color: var(--basics-accent);
+}
+
+.badge-tag.cat-final {
+  background: var(--final-bg);
+  color: var(--final-accent);
+  border: 1px solid rgba(245, 158, 11, 0.35);
 }
 
 .badge-tag.cat-rest {
@@ -1243,6 +1254,7 @@ body.dark-mode .type-chip.active {
   gap: 6px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
 }
 
 .col-panel.live-col h5 {
@@ -1269,9 +1281,10 @@ body.dark-mode .type-chip.active {
 
 .task-time {
   font-weight: 800;
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--ink);
   display: block;
+  font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
 }
 
 .task-sub {
@@ -1279,6 +1292,7 @@ body.dark-mode .type-chip.active {
   color: var(--ink-secondary);
   font-weight: 600;
   margin: 2px 0 6px;
+  font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
 }
 
 .task-btns {
@@ -1339,6 +1353,7 @@ body.dark-mode .type-chip.active {
   border-radius: 12px;
   font-weight: 700;
   font-size: 14px;
+  font-family: "Cairo", "Plus Jakarta Sans", sans-serif;
 }
 
 /* Locked State Banner */
@@ -1684,9 +1699,12 @@ footer.site-footer {
 }
 
 /* Responsive Breakpoints */
-@media (max-width: 900px) {
-  .countdown-grid, .sys-grid {
+@media (max-width: 960px) {
+  .countdown-grid {
     grid-template-columns: 1fr;
+  }
+  .sys-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   .qr-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1695,20 +1713,41 @@ footer.site-footer {
 
 @media (max-width: 680px) {
   header.hero {
-    padding: 22px 18px 20px;
+    padding: 18px 16px 16px;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 16px;
   }
   .hero-top {
     flex-direction: column;
+    gap: 14px;
   }
   .hero-logos {
     width: 100%;
     justify-content: flex-start;
   }
+  .logo-card.est-box img {
+    height: 52px;
+  }
+  .logo-card.ks-box img {
+    height: 48px;
+  }
+  .quick-links {
+    margin-top: 14px;
+    padding-top: 12px;
+    gap: 8px;
+  }
+  .quick-btn {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+  .sys-grid {
+    grid-template-columns: 1fr;
+  }
   .day-cols {
     grid-template-columns: 1fr;
   }
   .date-col {
-    width: 70px;
+    width: 68px;
   }
   .date-col span.day-num-big {
     font-size: 24px;
@@ -1725,7 +1764,7 @@ footer.site-footer {
 <body>
 <div class="wrap">
 
-  <!-- ===== HERO HEADER ===== -->
+  <!-- ===== HERO HEADER (SCROLLS AWAY NATURALLY) ===== -->
   <header class="hero">
     <div class="hero-top">
       <div>
@@ -1734,9 +1773,9 @@ footer.site-footer {
           <span class="cairo-clock-pill" id="cairoClock">🕒 Cairo Time: --:--</span>
         </div>
         <h1>December 2026 <span class="accent">EST Trial Plan</span></h1>
-        <p class="hero-sub">3-Week Intensive Revision, Official EST Sample Tests, Mocks &amp; Timed Online Exams · تحت إشراف م/ كريم سليم (الوزيري)</p>
+        <p class="hero-sub">4-Week Intensive Revision, Official EST Sample Tests, Timed Online Exams &amp; Daily Final Week Sessions · تحت إشراف م/ كريم سليم (الوزيري)</p>
         <div class="hero-meta-pills">
-          <span class="range-pill">📅 November 14 – December 4, 2026</span>
+          <span class="range-pill">📅 November 14 – December 12, 2026</span>
           <span class="teacher-pill">👨‍🏫 Eng. Kareem El Wazery · 01013251496</span>
         </div>
       </div>
@@ -1767,17 +1806,17 @@ footer.site-footer {
       <div class="cd-header">
         <div class="cd-title-group">
           <small>⏳ LIVE COUNTDOWN · العداد التنازلي للامتحان</small>
-          <h2 id="cdExamTitle">امتحان محاولة ديسمبر — EST I</h2>
+          <h2 id="cdExamTitle">امتحان محاولة ديسمبر — EST I (11/12)</h2>
         </div>
         <div class="cd-tabs" role="tablist">
-          <button type="button" class="cd-tab active" data-target="est1" id="tabEst1">EST I (Dec 4)</button>
-          <button type="button" class="cd-tab" data-target="est2" id="tabEst2">EST II (Dec 5)</button>
+          <button type="button" class="cd-tab active" data-target="est1" id="tabEst1">EST I (11/12)</button>
+          <button type="button" class="cd-tab" data-target="est2" id="tabEst2">EST II (12/12)</button>
         </div>
       </div>
 
       <div class="cd-boxes">
         <div class="cd-unit">
-          <span class="cd-num" id="cdDays">22</span>
+          <span class="cd-num" id="cdDays">29</span>
           <span class="cd-lbl">Days · يوم</span>
         </div>
         <div class="cd-unit">
@@ -1795,30 +1834,30 @@ footer.site-footer {
       </div>
 
       <div class="cd-footer">
-        <span class="cd-target-badge" id="cdTargetDateBadge">🎯 Friday, Dec 4, 2026 · 8:00 AM (Cairo)</span>
+        <span class="cd-target-badge" id="cdTargetDateBadge">🎯 Friday, Dec 11, 2026 (11/12) · 8:00 AM</span>
         <span id="cdStatusNote">شد حيلك! كل يوم مذاكرة بيقربك للسكور النهائي 💪</span>
       </div>
     </div>
 
-    <!-- Official December EST Exam Schedule Card (from PDF) -->
+    <!-- Official December EST Exam Schedule Card -->
     <div class="exam-sched-card">
       <div>
         <div class="exam-sched-head">
           <div>
             <h3>📋 جدول مواعيد امتحان EST — محاولة ديسمبر</h3>
-            <small>Official EST Testing Schedule · December Round</small>
+            <small>Official EST Testing Schedule · December 2026 Trial</small>
           </div>
-          <span class="est-mini-badge">DEC ROUND</span>
+          <span class="est-mini-badge">DEC 11 &amp; 12</span>
         </div>
 
         <div class="exam-slots">
           <div class="exam-slot est1">
             <div class="slot-date">
               <small>FRI · الجمعة</small>
-              <b>DEC 04</b>
+              <b>11 / 12</b>
             </div>
             <div class="slot-info">
-              <b>EST I — Reasoning &amp; Math</b>
+              <b>EST I — Friday, December 11, 2026</b>
               <span>Literacy I, Literacy II &amp; High School Math (Calc / No-Calc)</span>
             </div>
           </div>
@@ -1826,10 +1865,10 @@ footer.site-footer {
           <div class="exam-slot est2">
             <div class="slot-date">
               <small>SAT · السبت</small>
-              <b>DEC 05</b>
+              <b>12 / 12</b>
             </div>
             <div class="slot-info">
-              <b>EST II — Subject Tests (مواد التخصص)</b>
+              <b>EST II — Saturday, December 12, 2026</b>
               <span>المواد المتاحة في محاولة شهر ديسمبر:</span>
               <div class="subj-chips">
                 <span class="subj-chip">✨ Math Level 1</span>
@@ -1852,49 +1891,60 @@ footer.site-footer {
   <!-- ===== WEEKLY SYSTEM OVERVIEW ===== -->
   <div class="sec-heading">
     <h2>⚡ Weekly Study System · نظام المحاضرات والامتحانات الأسبوعي</h2>
-    <span class="badge">3 Weeks · 21 Days</span>
+    <span class="badge">4 Weeks · 29 Days</span>
   </div>
 
   <section class="sys-grid" aria-label="Weekly System">
     <div class="sys-card live-sys">
-      <span class="sys-pill">🎥 Saturday &amp; Tuesday · السبت والثلاثاء</span>
+      <span class="sys-pill">🎥 Sat &amp; Tue · السبت والثلاثاء</span>
       <h3>Live Classes (حصص البث المباشر)</h3>
       <p>حصتين لايف لحل أحدث امتحانات الـ Trials والـ Sample Tests خطوة بخطوة:</p>
       <ul class="sys-list">
-        <li><b>6:00 – 8:00 PM (EST 2):</b> Math Level 1 (Sample Tests 2, 3, 4, 5 &amp; April 2025).</li>
-        <li><b>10:00 PM – 12:00 AM (Advanced EST 1):</b> Trials (Oct 2025, Jan 2026, Dec 2025) &amp; Mocks 1–3.</li>
+        <li><b>6:00 – 8:00 PM (EST 2):</b> Math Level 1 (Sample Tests 2–5 &amp; April 2025).</li>
+        <li><b>10:00 PM – 12:00 AM (Adv EST 1):</b> Trials (Oct 2025, Jan 2026, Dec 2025) &amp; Mocks 1–3.</li>
       </ul>
     </div>
 
     <div class="sys-card exam-sys">
-      <span class="sys-pill">💻 Sunday &amp; Wednesday · الأحد والأربعاء</span>
+      <span class="sys-pill">💻 Sun &amp; Wed · الأحد والأربعاء</span>
       <h3>Timed Online Exams (امتحانات أونلاين)</h3>
-      <p>أيام تقييم أونلاين بوقت محدد (بدون حصة لايف) والامتحان بيقفل تلقائياً:</p>
+      <p>أيام تقييم أونلاين بوقت محدد والامتحان بيقفل تلقائياً:</p>
       <ul class="sys-list">
-        <li><b>EST I Practice Tests (1–5):</b> امتحانات High School Math كاملة على Microsoft Forms.</li>
-        <li><b>EST II Practice Tests (1–5):</b> امتحانات Math Level 1 كاملة بنفس نظام الامتحان الرسمي.</li>
+        <li><b>EST I Practice Tests (1–5):</b> امتحانات High School Math على Microsoft Forms.</li>
+        <li><b>EST II Practice Tests (1–5):</b> امتحانات Math Level 1 بنفس نظام الامتحان.</li>
       </ul>
     </div>
 
     <div class="sys-card basics-sys">
-      <span class="sys-pill">📖 Monday &amp; Thursday · الإثنين والخميس</span>
-      <h3>Basics &amp; Fridays Rest (الأساسيات والراحة)</h3>
+      <span class="sys-pill">📖 Mon &amp; Thu · الإثنين والخميس</span>
+      <h3>Basics Sessions (حصص الأساسيات)</h3>
       <p>تأسيس قوي ومراجعة شاملة لأهم قوانين وأفكار الـ Math:</p>
       <ul class="sys-list">
         <li><b>8:00 – 10:00 PM (Mon &amp; Thu):</b> حصة لايف Basics لتثبيت الأساسيات.</li>
-        <li><b>Fridays (الجمعة):</b> يوم راحة وتجميع ملاحظات الأسبوع استعداداً للأسبوع الجديد.</li>
+        <li><b>Fridays (الجمعة):</b> يوم راحة وتجميع ملاحظات الأسبوع.</li>
+      </ul>
+    </div>
+
+    <div class="sys-card final-sys">
+      <span class="sys-pill">🔥 Final Week · الأسبوع الأخير (5/12 – 11/12)</span>
+      <h3>Daily Live Sessions (سيشن يومي مكثف)</h3>
+      <p>معسكر الأسبوع الأخير قبل امتحان 11/12 و12/12 مباشر يومياً:</p>
+      <ul class="sys-list">
+        <li><b>كل يوم سيشن لايف:</b> من السبت 5 ديسمبر حتى الجمعة 11 ديسمبر.</li>
+        <li><b>ليالي الامتحان:</b> مراجعة شاملة ليلة امتحان EST 1 (10/12) وليلة EST 2 (11/12).</li>
       </ul>
     </div>
   </section>
 
-  <!-- ===== STICKY CONTROL & FILTER BAR ===== -->
+  <!-- ===== CONTROL & FILTER BAR (STATIC IN PAGE FLOW — HIDES NATURALLY WHEN SCROLLING DOWN) ===== -->
   <div class="control-bar" role="region" aria-label="Schedule Controls">
     <div class="ctrl-row-top">
       <div class="week-tabs" id="weekTabs">
-        <button type="button" class="wk-btn active" data-week="all">All Weeks (21 Days)</button>
+        <button type="button" class="wk-btn active" data-week="all">All Weeks (29 Days)</button>
         <button type="button" class="wk-btn" data-week="0">Week 1 · Nov 14–20</button>
         <button type="button" class="wk-btn" data-week="1">Week 2 · Nov 21–27</button>
         <button type="button" class="wk-btn" data-week="2">Week 3 · Nov 28–Dec 4</button>
+        <button type="button" class="wk-btn" data-week="3">🔥 Week 4 (Final Daily Sessions) · Dec 5–12</button>
       </div>
 
       <div class="ctrl-actions">
@@ -1912,10 +1962,11 @@ footer.site-footer {
     <div class="ctrl-row-bottom">
       <div class="type-filters" id="typeFilters">
         <button type="button" class="type-chip active" data-type="all">الكل (All)</button>
-        <button type="button" class="type-chip" data-type="live">🎥 Live Classes (6)</button>
-        <button type="button" class="type-chip" data-type="exam">💻 Online Exams (5)</button>
-        <button type="button" class="type-chip" data-type="basics">📖 Basics (6)</button>
-        <button type="button" class="type-chip" data-type="rest">☕ Rest &amp; Revision (4)</button>
+        <button type="button" class="type-chip" data-type="live">🎥 Live Classes</button>
+        <button type="button" class="type-chip" data-type="final">🔥 Final Week Daily Sessions</button>
+        <button type="button" class="type-chip" data-type="exam">💻 Online Exams</button>
+        <button type="button" class="type-chip" data-type="basics">📖 Basics</button>
+        <button type="button" class="type-chip" data-type="rest">☕ Rest Days</button>
       </div>
 
       <div class="search-progress-wrap">
@@ -1924,7 +1975,7 @@ footer.site-footer {
           <input type="search" id="searchInput" placeholder="ابحث عن امتحان أو يوم (مثال: Mock 1)...">
         </div>
         <div class="progress-pill">
-          <span id="progressText">0 / 21 مكتمل</span>
+          <span id="progressText">0 / 29 مكتمل</span>
           <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
         </div>
       </div>
@@ -2073,19 +2124,22 @@ const CFG = {
   tz: "Africa/Cairo",          // التوقيت الرسمي لفتح الأيام (12:00 منتصف الليل بتوقيت القاهرة)
   examDates: {
     est1: {
-      title: "امتحان محاولة ديسمبر — EST I (Reasoning & Math)",
-      dateISO: "2026-12-04T08:00:00+02:00",
-      badge: "🎯 Friday, Dec 4, 2026 · 8:00 AM (Cairo)"
+      title: "امتحان محاولة ديسمبر — EST I (11/12)",
+      dateISO: "2026-12-11T08:00:00+02:00",
+      badge: "🎯 Friday, Dec 11, 2026 (11/12) · 8:00 AM"
     },
     est2: {
-      title: "امتحان محاولة ديسمبر — EST II (Math Level 1 & 2)",
-      dateISO: "2026-12-05T08:00:00+02:00",
-      badge: "🎯 Saturday, Dec 5, 2026 · 8:00 AM (Cairo)"
+      title: "امتحان محاولة ديسمبر — EST II (12/12)",
+      dateISO: "2026-12-12T08:00:00+02:00",
+      badge: "🎯 Saturday, Dec 12, 2026 (12/12) · 8:00 AM"
     }
   }
 };
 
 /* ===== دوال بناء الروابط والبيانات ===== */
+const DRIVE_FOLDER = "https://drive.google.com/drive/folders/13gXEqAcDRUl10ZB-SovEqLNDfm8AxuOJ";
+const SITE_TESTS = "https://elitexsat.com/app#/tests";
+const SITE_BANK = "https://elitexsat.com/app#/bank";
 const dr = id => "https://drive.google.com/file/d/" + id + "/view?usp=drive_web";
 const fc = id => "https://forms.cloud.microsoft/r/" + id;
 const H = (t, b, s) => ({ t, b, s });
@@ -2098,10 +2152,19 @@ const EXM = (n, a, b) => [
   H("EST I · HS Math Practice Test " + n, [["🚀 Start Timed Test (EST I)", fc(a)]], "Microsoft Forms · Timed Official Simulation"),
   H("EST II · HS Math Level 1 Practice Test " + n, [["🚀 Start Timed Test (EST II)", fc(b)]], "Microsoft Forms · Timed Official Simulation")
 ];
-const D = (date, n, type, live, rec) => ({ date, n, type, live: live || [], rec: rec || [] });
+// Daily Final Week Session helper (كل يوم سيشن في الأسبوع الأخير)
+const FS = (sessionNum, titleAr, subDesc, extraPractice) => ({
+  live: [
+    H("🎥 Daily Final Revision Session " + sessionNum + " · سيشن مراجعة نهائية يومي", [["📁 ملفات المراجعة (Drive)", DRIVE_FOLDER]], titleAr + " — " + subDesc)
+  ],
+  rec: [
+    H("✍️ Final Exam Practice & VIP Notes", [["🌐 Website Tests", SITE_TESTS], ["📋 Question Bank", SITE_BANK]], extraPractice || "حل وتطبيق يومي على أهم أفكار وتريكات امتحان ديسمبر")
+  ]
+});
+const D = (date, n, type, live, rec, isExamDay) => ({ date, n, type, live: live || [], rec: rec || [], isExamDay: !!isExamDay });
 const OFF = (date, n, note) => ({ date, n, type: "rest", free: true, note: note || "No class today. Take a rest & review your notes." });
 
-/* ===== جدول الأسابيع الكامل (November 14 – December 4, 2026) ===== */
+/* ===== جدول الأسابيع الكامل (November 14 – December 12, 2026) ===== */
 const WEEKS = [
   {
     title: "WEEK 1",
@@ -2139,7 +2202,51 @@ const WEEKS = [
       D("2026-12-01", 18, "live", LS(["April 2025 (Math Level 1)", "1-gvDArbhF56g93AcUzCkgiw9I8mxNN28"], ["December 2025", "1yeQRsMvi0_Wk-lp41Lm_SVIJUQTKaM6o"])),
       OFF("2026-12-02", 19, "General revision and collecting your notes · مراجعة عامة وتجميع ملاحظاتك"),
       D("2026-12-03", 20, "basics", BS),
-      OFF("2026-12-04", 21, "EST I Exam Day / Rest & final preparation for EST II · بالتوفيق في الامتحان!")
+      OFF("2026-12-04", 21, "No class today. Take a rest & get ready for the Final Exam Week (كل يوم سيشن في الأسبوع الأخير).")
+    ]
+  },
+  {
+    title: "WEEK 4 · FINAL EXAM WEEK (كل يوم سيشن مراجعة نهائية)",
+    range: "Days 22–29 · Dec 5 – Dec 12, 2026",
+    days: [
+      D("2026-12-05", 22, "final",
+        FS(1, "سيشن يومي (1) — مراجعة شاملة وحل امتحانات EST 1 & EST 2", "مراجعة مكثفة لأهم أفكار الجبر والدوال وحل نماذج كاملة").live,
+        FS(1, "", "", "مراجعة القوانين الأساسية والتدريب على سرعة الحل").rec
+      ),
+      D("2026-12-06", 23, "final",
+        FS(2, "سيشن يومي (2) — مراجعة نهائية وحل مسائل المستويات العليا", "تدريب عملي مباشر على أصعب أسئلة الامتحانات السابقة").live,
+        FS(2, "", "", "حل تجميعات الأسئلة المتكررة في محاولات ديسمبر").rec
+      ),
+      D("2026-12-07", 24, "final",
+        FS(3, "سيشن يومي (3) — مراجعة Geometry, Trigonometry & Statistics", "تغطية شاملة للهندسة وحساب المثلثات والإحصاء لـ EST 1 & EST 2").live,
+        FS(3, "", "", "تطبيق عملي على قوانين الهندسة والـ Calculator Hacks").rec
+      ),
+      D("2026-12-08", 25, "final",
+        FS(4, "سيشن يومي (4) — حل امتحان شامل بالتوقيت (Full Exam Walkthrough)", "محاكاة كاملة لورقة الامتحان وتوزيع الوقت على الأقسام").live,
+        FS(4, "", "", "مراجعة أخطاء الطلاب والتركيز على نقاط الضعف").rec
+      ),
+      D("2026-12-09", 26, "final",
+        FS(5, "سيشن يومي (5) — تجميع كل القوانين والتريكات النهائية", "ملخص شامل لكل قوانين المنهج وأسرع طرق الحل بالآلة الحاسبة").live,
+        FS(5, "", "", "مراجعة شيت القوانين الذهبية ليلة الامتحان").rec
+      ),
+      D("2026-12-10", 27, "final",
+        [H("🔥 سيشن ليلة الامتحان (6) — EST I Exam Night Live Session", [["📁 ملفات ليلة الامتحان", DRIVE_FOLDER]], "مراجعة ليلة امتحان EST 1 الشاملة ووصايا اللجنة النهائية")],
+        [H("🎯 استعداد كامل لامتحان الغد (EST I — 11/12)", [["🌐 EliteXSAT Tests", SITE_TESTS]], "مراجعة هادئة لأهم الملاحظات والنوم مبكراً استعداداً للامتحان")],
+        true
+      ),
+      D("2026-12-11", 28, "final",
+        [
+          H("🎯 صباحاً: امتحان EST I الرسمي (Friday 11/12/2026)", [], "بالتوفيق لجميع أبطالنا في امتحان EST I!"),
+          H("🔥 مساءً: سيشن ليلة امتحان EST II (Math Level 1 & 2)", [["📁 ملفات ليلة امتحان EST 2", DRIVE_FOLDER]], "سيشن مراجعة ليلة الامتحان المكثف لمادة Math Level 1 & 2")
+        ],
+        [H("📐 مراجعة قوانين EST II النهائية", [["📋 Question Bank", SITE_BANK]], "التركيز على تريكات Math Level 1 & Level 2 النهائية")],
+        true
+      ),
+      D("2026-12-12", 29, "final",
+        [H("🏆 امتحان EST II الرسمي (Saturday 12/12/2026)", [], "يوم حصاد التعب — بالتوفيق والسكور النهائي العالي إن شاء الله!")],
+        [H("🌟 ختام محاولة ديسمبر 2026", [["💬 طمّنا بعد اللجنة على واتساب", "https://wa.me/201013251496"]], "مستنيين رسائلكم الحلوة بعد الخروج من الامتحان 💪")],
+        true
+      )
     ]
   }
 ];
@@ -2219,7 +2326,6 @@ function updateClockAndCountdown() {
 
   const targetObj = CFG.examDates[selectedExamTarget];
   const targetTime = new Date(targetObj.dateISO).getTime();
-  // If user selected a simulated date, show countdown relative to simulated date morning or real time
   const baseMs = simulatedDate ? new Date(simulatedDate + "T08:00:00+02:00").getTime() : nowMs();
   const diff = Math.max(0, targetTime - baseMs);
 
@@ -2250,6 +2356,7 @@ function getCategoryBadge(type) {
   if (type === "live") return '<span class="badge-tag cat-live">🎥 Live Classes</span>';
   if (type === "exam") return '<span class="badge-tag cat-exam">💻 Online Exam Day</span>';
   if (type === "basics") return '<span class="badge-tag cat-basics">📖 Basics Session</span>';
+  if (type === "final") return '<span class="badge-tag cat-final">🔥 سيشن مراجعة يومي (Final Week)</span>';
   return '<span class="badge-tag cat-rest">☕ Day Off / Rest</span>';
 }
 
@@ -2295,16 +2402,17 @@ function buildDayCard(x, today) {
   }
 
   let bodyHtml = "";
+  const col2Title = x.type === "final" ? "🎯 تدريبات وملاحظات السيشن اليومي" : "💻 Online Exams (الامتحانات الأونلاين)";
   if (isOpen) {
     bodyHtml = `
       <div class="day-cols">
         <div class="col-panel live-col">
-          <h5>🎥 Live Classes (حصص اللايف)</h5>
+          <h5>🎥 Live Session (السيشن المباشر)</h5>
           ${renderBlocks(x.live, "")}
         </div>
         <div class="col-panel exam-col">
-          <h5>💻 Online Exams (الامتحانات الأونلاين)</h5>
-          ${renderBlocks(x.rec, "exam-btn")}
+          <h5>${col2Title}</h5>
+          ${renderBlocks(x.rec, x.type === "final" ? "" : "exam-btn")}
         </div>
       </div>
     `;
@@ -2315,7 +2423,7 @@ function buildDayCard(x, today) {
           <div class="lock-icon-circle">⏱️</div>
           <div class="lock-text">
             <b>This day has ended · انتهى موعد هذا اليوم</b>
-            <span class="ar">اليوم ده خلص — اضغط على زر "معاينة كل الأيام" فوق لو حابب تراجع محتواه.</span>
+            <span class="ar">اليوم ده خلص — اضغط على زر "القفل اليومي مفعّل (اضغط للمعاينة)" فوق لو حابب تراجع محتواه.</span>
           </div>
         </div>
         <span class="lock-pill-right">Ended · مغلق</span>
@@ -2325,12 +2433,13 @@ function buildDayCard(x, today) {
     const left = Math.max(1, Math.round(dayNum(x.date) - dayNum(today)));
     const enLeft = left === 1 ? "tomorrow" : `in ${left} days`;
     const arLeft = left === 1 ? "بكرة" : left === 2 ? "بعد يومين" : `بعد ${left} أيام`;
+    const extraTag = x.type === "final" ? " · 🔥 سيشن مراجعة نهائية" : "";
     bodyHtml = `
       <div class="lock-box">
         <div class="lock-info">
           <div class="lock-icon-circle">🔒</div>
           <div class="lock-text">
-            <b>Opens on ${fmt(x.date, { weekday: "long", month: "long", day: "numeric" })} (${enLeft})</b>
+            <b>Opens on ${fmt(x.date, { weekday: "long", month: "long", day: "numeric" })} (${enLeft})${extraTag}</b>
             <span class="ar">هيفتح تلقائياً يوم ${fmt(x.date, { weekday: "long", day: "numeric", month: "long" }, "ar-EG-u-nu-latn")} (${arLeft} الساعة 12:00 ص بتوقيت القاهرة)</span>
           </div>
         </div>
@@ -2340,7 +2449,7 @@ function buildDayCard(x, today) {
   }
 
   return `
-    <article class="day-card ${isToday ? "today" : ""} ${isOpen ? "" : "locked"} ${isDone ? "done-day" : ""}" id="d-${x.date}">
+    <article class="day-card ${isToday ? "today" : ""} ${isOpen ? "" : "locked"} ${isDone ? "done-day" : ""} ${x.isExamDay ? "exam-day-highlight" : ""}" id="d-${x.date}">
       ${dateCol}
       <div class="card-body">
         ${headHtml}
@@ -2421,7 +2530,6 @@ function renderSchedule() {
 
 /* ===== تهيئة الفلاتر والأزرار التفاعلية ===== */
 function initControls() {
-  // Populate Date Simulator dropdown
   const simSelect = document.getElementById("simDateSelect");
   ALL_DAYS.forEach(d => {
     const opt = document.createElement("option");
@@ -2433,7 +2541,7 @@ function initControls() {
   simSelect.addEventListener("change", e => {
     simulatedDate = e.target.value;
     if (simulatedDate) {
-      previewAll = false; // Show how lock works on that simulated day
+      previewAll = false;
     }
     renderSchedule();
     updateClockAndCountdown();
@@ -2443,13 +2551,11 @@ function initControls() {
     }
   });
 
-  // Lock / Preview Toggle
   document.getElementById("toggleLockBtn").addEventListener("click", () => {
     previewAll = !previewAll;
     renderSchedule();
   });
 
-  // Theme Toggle
   const themeBtn = document.getElementById("themeToggleBtn");
   const updateThemeIcon = () => {
     themeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
@@ -2463,7 +2569,6 @@ function initControls() {
     } catch (e) {}
   });
 
-  // Week Filter Tabs
   document.getElementById("weekTabs").addEventListener("click", e => {
     const btn = e.target.closest(".wk-btn");
     if (!btn) return;
@@ -2473,7 +2578,6 @@ function initControls() {
     renderSchedule();
   });
 
-  // Type Filter Chips
   document.getElementById("typeFilters").addEventListener("click", e => {
     const btn = e.target.closest(".type-chip");
     if (!btn) return;
@@ -2483,13 +2587,11 @@ function initControls() {
     renderSchedule();
   });
 
-  // Search Box
   document.getElementById("searchInput").addEventListener("input", e => {
     searchQuery = e.target.value.trim();
     renderSchedule();
   });
 
-  // Countdown Target Switcher (EST I vs EST II)
   document.querySelectorAll(".cd-tab").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".cd-tab").forEach(t => t.classList.remove("active"));
@@ -2502,7 +2604,6 @@ function initControls() {
     });
   });
 
-  // Delegated click for Done checkboxes
   document.getElementById("scheduleApp").addEventListener("click", e => {
     const btn = e.target.closest("[data-done-date]");
     if (!btn) return;
@@ -2513,7 +2614,6 @@ function initControls() {
     renderSchedule();
   });
 
-  // Lightbox Zoom for QR Codes and Poster
   const modal = document.getElementById("lightboxModal");
   const modalImg = document.getElementById("lightboxImg");
   document.querySelectorAll("[data-zoom]").forEach(img => {
